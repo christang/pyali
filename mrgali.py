@@ -2,25 +2,6 @@ import numpy as np
 import pandas as pd
 
 
-# a target, reference alignment of interest
-test_refs = [
-    'abcde-',
-    '-bcdef',
-]
-
-# a set of alignments based on one of the reference sequences
-# to merge onto the reference alignment
-test_alis = [
-    [
-        'ab-cde',
-        '-bbcd-',
-    ], [
-        'bcdef',
-        '-cde-',
-    ]
-]
-
-
 def sequence_tuples(seq):
     return [(a, i) for i, a in enumerate(seq)]
 
@@ -70,9 +51,28 @@ class Alignment(object):
         return self.build_str()
 
 
-# test code
-a = Alignment.from_reference(test_refs)
-a.merge(0, test_alis[0])
-a.merge(1, test_alis[1])
-print a
+if __name__=='__main__':
+    # a target, reference alignment of interest
+    test_refs = [
+        'abcde-',
+        '-bcdef',
+    ]
+
+    # a set of alignments based on one of the reference sequences
+    # to merge onto the reference alignment
+    test_alis = [
+        [
+            'ab-cde',
+            '-bbcd-',
+        ], [
+            'bcdef',
+            '-cde-',
+        ]
+    ]
+
+    # test code
+    a = Alignment.from_reference(test_refs)
+    a.merge(0, test_alis[0])
+    a.merge(1, test_alis[1])
+    print a
 
