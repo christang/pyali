@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import simplejson
 
 
 def sequence_tuples(seq):
@@ -70,9 +71,14 @@ if __name__=='__main__':
         ]
     ]
 
+    obj = {
+        'ref': test_refs,
+        'seqs': [[i, test_ali] for i, test_ali in enumerate(test_alis)]
+    }
+    print simplejson.dumps(obj)
+
     # test code
     a = Alignment.from_reference(test_refs)
     a.merge(0, test_alis[0])
     a.merge(1, test_alis[1])
     print a
-
