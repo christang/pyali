@@ -29,7 +29,7 @@ class AlignmentService:
         except KeyError:
             raise falcon.HTTPBadRequest('bad request', 'missing seqs')
 
-        resp.body = str(a)
+        resp.body = simplejson.dumps({'result': str(a)})
 
 
 api = falcon.API()
