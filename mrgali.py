@@ -6,9 +6,6 @@ import simplejson
 def sequence_tuples(seq):
     return [(a, i) for i, a in enumerate(seq)]
 
-def resequence_tuples(seq):
-    return sequence_tuples(a[0] if isinstance(a, tuple) else a for a in seq)
-
 def alignment_frame(ali, base=0):
     df = pd.DataFrame(map(list, ali)).transpose()
     df.columns = range(base, base+len(ali))
@@ -34,13 +31,19 @@ class Alignment(object):
         ali_index = self.get_indexed(index, ali[0])
         ali_frame = alignment_frame(ali[1:], 1 + self.alignment.columns.max())
         ali_frame[index] = ali_index
+        # merge, preserving sequence aligned to gaps
         ali_merge = self.alignment.merge(ali_frame, on=[index], how='outer')
         ali_merge.order = ali_merge.order.fillna(method='pad').fillna(-1)
         ali_merge.sort_values('order', inplace=True)
         ali_merge = ali_merge.drop('order', axis=1).fillna(Alignment.GAP)
         for i in xrange(self.n_refs):
-            ali_merge[i] = resequence_tuples(ali_merge[i])
-        return ali_merge
+            ali_merge[i] = [a[0] if isinstance(a, tuple) else a for a in ali_merge[i]]
+        # drop rows containing all gaps
+        all_gap = ali_merge.apply(lambda row: all(a == Alignment.GAP for a in row), axis=1)
+        ali_merge = ali_merge[~all_gap].copy()
+        for i in xrange(self.n_refs):
+            ali_merge[i] = sequence_tuples(ali_merge[i])
+        return ali_merge.reset_index(drop=True)
 
     def get_indexed(self, index, seq):
         ref_ungapped = [(a, i) for a, i in self.alignment[index] if a != Alignment.GAP]
@@ -65,21 +68,19 @@ class Alignment(object):
 if __name__=='__main__':
     # a target, reference alignment of interest
     test_refs = [
-        'abcde-',
-        '-bcdef',
+        'abc-',
+        '-bcd',
     ]
 
     # a set of alignments based on one of the reference sequences
     # to merge onto the reference alignment
     test_alis = [
         [
-            'ab-cde',
-            '-bbcd-',
+            'a-bc',
+            'aabc',
         ], [
-            'b-cde-f-',
-            '--c-e-f-',
-            '--cdeefg',
-            '-ccde---',
+            '-bc-d',
+            '-bccd',
         ]
     ]
 
