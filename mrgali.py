@@ -6,9 +6,13 @@ import simplejson
 def sequence_tuples(seq):
     return [(a, i) for i, a in enumerate(seq)]
 
+def resequence_tuples(seq):
+    return sequence_tuples(a[0] if isinstance(a, tuple) else a for a in seq)
+
 def alignment_frame(ali, base=0):
     df = pd.DataFrame(map(list, ali)).transpose()
     df.columns = range(base, base+len(ali))
+    df['order'] = range(len(df))
     return df
 
 
@@ -30,7 +34,13 @@ class Alignment(object):
         ali_index = self.get_indexed(index, ali[0])
         ali_frame = alignment_frame(ali[1:], 1 + self.alignment.columns.max())
         ali_frame[index] = ali_index
-        return self.alignment.merge(ali_frame, on=[index], how='left').fillna(Alignment.GAP)
+        ali_merge = self.alignment.merge(ali_frame, on=[index], how='outer')
+        ali_merge.order = ali_merge.order.fillna(method='pad').fillna(-1)
+        ali_merge.sort_values('order', inplace=True)
+        ali_merge = ali_merge.drop('order', axis=1).fillna(Alignment.GAP)
+        for i in xrange(self.n_refs):
+            ali_merge[i] = resequence_tuples(ali_merge[i])
+        return ali_merge
 
     def get_indexed(self, index, seq):
         ref_ungapped = [(a, i) for a, i in self.alignment[index] if a != Alignment.GAP]
@@ -66,8 +76,10 @@ if __name__=='__main__':
             'ab-cde',
             '-bbcd-',
         ], [
-            'bcdef',
-            '-cde-',
+            'b-cde-f-',
+            '--c-e-f-',
+            '--cdeefg',
+            '-ccde---',
         ]
     ]
 
