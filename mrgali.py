@@ -34,7 +34,7 @@ class Alignment(object):
         # merge, preserving sequence aligned to gaps
         ali_merge = self.alignment.merge(ali_frame, on=[index], how='outer')
         ali_merge.order = ali_merge.order.fillna(method='pad').fillna(-1)
-        ali_merge.sort_values('order', inplace=True)
+        ali_merge.sort_values('order', kind='mergesort', inplace=True)
         ali_merge = ali_merge.drop('order', axis=1).fillna(Alignment.GAP)
         for i in xrange(self.n_refs):
             ali_merge[i] = [a[0] if isinstance(a, tuple) else a for a in ali_merge[i]]
