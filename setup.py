@@ -2,7 +2,8 @@ from distutils.core import setup
 setup(
   name = 'pyali',
   packages = ['pyali'], # this must be the same as the name above
-  version = '0.1',
+  install_requires = ['pandas', 'numpy', 'simplejson'],
+  version = '0.1.1',
   description = 'A package for merging alignments',
   author = 'Chris L Tang',
   author_email = 'chris.l.tang@gmail.com',
