@@ -1,15 +1,17 @@
 # Author: Antoniya A. Aleksandrova
-# Language: Python 3.5/2.7
+# Language: Python 3
 # Description: Takes pairwise alignments and outputs a multiple alignment 
 # Usage: python align_merger.py -in <list with fasta files> -out <output file> -width <width of lines in output fasta> -ref <name of reference sequence>
 
 import os
-import numpy as np
-import pandas as pd
-import simplejson
 import glob
-from pyali.mrgali import *
 import sys
+# Use code between #s if you've cloned the github repository; otherwsise, as a standalone with pyali installed, replace it with #from pyali.mrgali import *
+###
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]) + '/pyali')
+from mrgali import Alignment
+###
 import argparse
 from raise_aln import raise_seq
 

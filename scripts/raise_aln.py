@@ -1,5 +1,5 @@
 # Author: Antoniya A. Aleksandrova
-# Language: Python 3.5/2.7
+# Language: Python 3
 # Description: Move a specified alignment to the top of a fasta file 
 # Usage: python raise_aln.py -in <fasta file> -out <output file> -seq <sequence name>  
 
