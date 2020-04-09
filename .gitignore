@@ -2,3 +2,8 @@
 **/*.swp
 **/*.pyc
 **/.vscode
+
+.eggs/
+build/
+dist/
+pyali.egg-info/

@@ -1,7 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 setup(
   name = 'pyali',
   packages = ['pyali'], # this must be the same as the name above
+  python_requires = '>=3',
   install_requires = ['pandas', 'numpy', 'simplejson'],
   version = '0.1.1',
   description = 'A package for merging alignments',
