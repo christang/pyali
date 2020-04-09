@@ -1,7 +1,7 @@
 # Author: Antoniya A. Aleksandrova
 # Language: Python 3
-# Description: Move a specified alignment to the top of a fasta file 
-# Usage: python raise_aln.py -in <fasta file> -out <output file> -seq <sequence name>  
+# Description: Move a specified alignment to the top of a fasta file
+# Usage: python raise_aln.py -in <fasta file> -out <output file> -seq <sequence name>
 
 import os
 import sys
@@ -24,7 +24,7 @@ def raise_seq(infile, outfile, seqn):
 			seq = seq + line
 	aligns.append((name, seq))
 	f.close()
-	
+
 	index = [x for x, y in enumerate(aligns) if y[0] == seqn] # locate the top sequence
 	if len(index)==0:
 		raise SystemExit(seqn + " cannot be located in " + infile)

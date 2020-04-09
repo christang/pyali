@@ -1,6 +1,6 @@
 # Author: Antoniya A. Aleksandrova
 # Language: Python 3
-# Description: Takes pairwise alignments and outputs a multiple alignment 
+# Description: Takes pairwise alignments and outputs a multiple alignment
 # Usage: python align_merger.py -in <list with fasta files> -out <output file> -width <width of lines in output fasta> -ref <name of reference sequence>
 
 import os
