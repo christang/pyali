@@ -3,16 +3,15 @@
 # Description: Takes pairwise alignments and outputs a multiple alignment
 # Usage: python align_merger.py -in <list with fasta files> -out <output file> -width <width of lines in output fasta> -ref <name of reference sequence>
 
-import os
-import glob
-import sys
-# Use code between #s if you've cloned the github repository; otherwsise, as a standalone with pyali installed, replace it with #from pyali.mrgali import *
-###
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]) + '/pyali')
-from mrgali import Alignment
-###
 import argparse
+import glob
+import os
+import sys
+
+try:
+    from pyali.mrgali import Alignment
+except:
+    print("[ERROR]: pyali has not been installed. To install, run `python setup.py install` from project directory.")
 from raise_aln import raise_seq
 
 

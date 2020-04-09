@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-sys.path.append(str(Path(__file__).resolve().parents[2]) + '/pyali')
 
 testsdir = str(Path(__file__).resolve().parents[1]) + '/tests/'
 
@@ -27,7 +26,7 @@ testsdir = str(Path(__file__).resolve().parents[1]) + '/tests/'
                                                    '3: IRGIS', '4: TT---', '5: T-T-T', '6: F-F--']
                                                   )])
 def test_pyali_Alignmnet(refs, alis, msa):
-    from mrgali import Alignment
+    from pyali.mrgali import Alignment
     a = Alignment.from_reference(refs)
     a.merge(0, alis[0])
     a.merge(1, alis[1])
